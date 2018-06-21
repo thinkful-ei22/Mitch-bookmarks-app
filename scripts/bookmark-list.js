@@ -3,9 +3,10 @@
 
 const bookmarkList = (function() {
 
+  //function to add HTML elements to bookmark
   const generateBookmarkElement = function(bookmark) {
     return `
-      <li class="js-bookmark-element" data-item-id=${bookmark.id}">
+      <li class="js-bookmark-element" data-bookmark-id=${bookmark.id}>
         <a href ="${bookmark.url}">${bookmark.title}</a><br>
         ${bookmark.desc} -- ${bookmark.rating} star(s)!
         <div class="bookmark-controls">
@@ -16,19 +17,21 @@ const bookmarkList = (function() {
       </li>`;
   };
 
+  //function to convert all passed bookmarks to one HTML string
   const  generateListBookmarkString = function(bookmarkList) {
     const bookmarks = bookmarkList.map((bookmark) => 
       generateBookmarkElement(bookmark));
     return bookmarks.join('');
   };
 
+  //function to render the bookmark list
   function render() {
     let bookmarks = store.bookmarks;
     const listBookmarkString = generateListBookmarkString(bookmarks);
     $('.bookmark-list').html(listBookmarkString);
   }
 
-  // add new bookmarks to the list and api
+  //function to add new bookmarks to the list and api
   const handleNewBookmarkSubmit = function() {
     $('#js-bookmark-form').submit(function (event) {
       event.preventDefault();
@@ -43,7 +46,8 @@ const bookmarkList = (function() {
       $('.js-bookmark-desc').val(''),
       $('.js-bookmark-rating').val(''),
       api.createBookmark(newBookmark, (bookmark) => {
-        console.log(bookmark);
+        store.addBookmarkToStore(bookmark);
+        render();
       }, (err) => {
         console.log(err);
         alert(err.responseJSON.message);
@@ -52,14 +56,26 @@ const bookmarkList = (function() {
 
   };
 
-  const handleDeleteBookmarks = function() {
+  //function to get bookmark Id from HTML elements
+  const getBookmarkIdFromElement= function(bookmark) {
+    return $(bookmark).closest('.js-bookmark-element').data('bookmark-id');
+  };
 
+  //function for deleting bookmarks from store and api
+  const handleDeleteBookmark = function() {
+    $('.js-bookmark-list').on('click', '.js-bookmark-delete', event => {
+      const id = getBookmarkIdFromElement(event.currentTarget);
+      api.deleteBookmark(id, ()=>{
+        store.findAndDeleteBookmark(id);
+        render();
+      });
+    });
   };
 
   //event listeners go here
   const bindEventListeners = function(){
     handleNewBookmarkSubmit();
-    handleDeleteBookmarks();
+    handleDeleteBookmark();
   };
 
   return {

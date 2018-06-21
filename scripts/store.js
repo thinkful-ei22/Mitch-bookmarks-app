@@ -9,7 +9,11 @@ const store = (function () {
     this.bookmarks.push(bookmark);
   };
 
+  const findAndDeleteBookmark = function(id) {
+    this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+  };
+
   return {
-    bookmarks: bookmarks, addBookmarkToStore
+    bookmarks: bookmarks, addBookmarkToStore, findAndDeleteBookmark
   };
 }());
