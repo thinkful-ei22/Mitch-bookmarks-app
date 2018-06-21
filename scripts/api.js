@@ -5,10 +5,12 @@ const api = (function() {
 
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/mitchg';
 
+  //get all the bookmarks
   const getBookmarks = function(callback) {
     return $.getJSON(`${BASE_URL}/bookmarks`, callback);
   };
 
+  //turn bookmark objects into json strings
   const bookmarkJSONify = function(bookmark) {
     const title = bookmark.title;
     const url = bookmark.url;
@@ -18,6 +20,7 @@ const api = (function() {
     return JSON.stringify({ title, url, desc, rating });
   };
 
+  //create new bookmarks
   const createBookmark = function(bookmark, callback) {
     const newBookmark = bookmarkJSONify(bookmark);
     $.ajax({

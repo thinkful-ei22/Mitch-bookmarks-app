@@ -1,7 +1,8 @@
 'use strict';
 /* global bookmarkList, api, $ */
 
-$(function () {
+//DOM
+$(document).ready(function () {
   bookmarkList.bindEventListeners();
 });
 
@@ -14,8 +15,8 @@ $(function () {
 // });
 // console.log(api.BASE_URL);
 
-api.createBookmark('Wendys', 'https://www-pqa1.wendys.com/home', 'wendells', 3, (newBookmark) => {
-  api.getBookmarks((bookmarks) => {
-    console.log(bookmarks);
-  });
-});
+// api.createBookmark('Wendys', 'https://www-pqa1.wendys.com/home', 'wendells', 3, (newBookmark) => {
+//   api.getBookmarks((bookmarks) => {
+//     console.log(bookmarks);
+//   });
+// });

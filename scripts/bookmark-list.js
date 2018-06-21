@@ -3,6 +3,7 @@
 
 const bookmarkList = (function() {
 
+  // add new bookmarks to the list and api
   function handleNewBookmarkSubmit() {
     $('#js-bookmark-form').submit(function (event) {
       event.preventDefault();
@@ -23,6 +24,7 @@ const bookmarkList = (function() {
 
   }
 
+  //event listeners go here
   function bindEventListeners(){
     handleNewBookmarkSubmit();
   }
