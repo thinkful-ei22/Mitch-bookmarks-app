@@ -21,14 +21,15 @@ const api = (function() {
   };
 
   //create new bookmarks
-  const createBookmark = function(bookmark, callback) {
+  const createBookmark = function(bookmark, success, failure) {
     const newBookmark = bookmarkJSONify(bookmark);
     $.ajax({
       'url': `${BASE_URL}/bookmarks`,
       'method': 'POST',
       'contentType': 'application/json',
       'data': newBookmark,
-      'success': callback
+      'success': success,
+      'error': failure
     });
 
   };

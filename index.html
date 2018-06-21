@@ -8,9 +8,10 @@
 	<title>Bookmarks</title>
 </head>
 <body>
-  <div class ="container">
+  <div class ="container container-1">
     <h1>Bookmarks!</h1>
-    <form id="js-bookmark-form">
+    <h2 aria-live="polite" class="xx">0</h2>
+    <form id="js-bookmark-form" aria-label="Bookmark Form">
       <label for="bookmark-title">Add a bookmark</label>
       <input type="text" name="bookmark-title" class="js-bookmark-title" placeholder="Title here.."><br>
       <input type="text" name="bookmark-url" class="js-bookmark-url" placeholder="Url here.."><br>
@@ -25,9 +26,10 @@
       <button type="submit">Add bookmark</button>
 
     </form>
+
     <ul class="bookmark-list js-bookmark-list">
     </ul>
-  </div>
+
 
 
 

@@ -1,9 +1,13 @@
 'use strict';
-/* global bookmarkList, api, $ */
+/* global bookmarkList, api, store, $ */
 
 //DOM
 $(document).ready(function () {
   bookmarkList.bindEventListeners();
+  api.getBookmarks(data => {
+    data.forEach(bookmark => store.addBookmarkToStore(bookmark));
+    bookmarkList.render();
+  });
 });
 
 // $.getJSON('https://thinkful-list-api.herokuapp.com/mitchg/bookmarks'), (response) => {

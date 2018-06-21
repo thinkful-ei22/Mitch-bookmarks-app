@@ -1,12 +1,13 @@
 body {
-	background-image: url('../resources/skatepuck.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
-	    margin: 0;
-    padding: 0;
-    border: 0;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
+	background-image: url('../resources/net.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
 }
 
 button, input[type="text"] {
@@ -40,8 +41,18 @@ button:hover {
   display: none;
 }
 
-#shopping-list-item {
+#bookmark-list-item {
   width: 250px;
+}
+
+.js-bookmark-element {
+  background-color: white;
+  display: block;
+  color: black;
+  font-style: italic;
+  font-size: 20px;
+  margin-bottom: 15px;
+
 }
 
 .container {
@@ -58,12 +69,4 @@ button:hover {
   margin-bottom: 20px;
   border: 1px solid grey;
   padding: 20px;
-}
-
-.bookmark-item {
-  display: block;
-  color: grey;
-  font-style: italic;
-  font-size: 20px;
-  margin-bottom: 15px;
 }
