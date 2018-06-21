@@ -3,7 +3,7 @@
 
 const bookmarkList = (function() {
 
-  function generateBookmarkElement(bookmark) {
+  const generateBookmarkElement = function(bookmark) {
     return `
       <li class="js-bookmark-element" data-item-id=${bookmark.id}">
         <a href ="${bookmark.url}">${bookmark.title}</a><br>
@@ -14,13 +14,13 @@ const bookmarkList = (function() {
           </button>
         </div>
       </li>`;
-  }
+  };
 
-  function generateListBookmarkString(bookmarkList) {
+  const  generateListBookmarkString = function(bookmarkList) {
     const bookmarks = bookmarkList.map((bookmark) => 
       generateBookmarkElement(bookmark));
     return bookmarks.join('');
-  }
+  };
 
   function render() {
     let bookmarks = store.bookmarks;
@@ -29,7 +29,7 @@ const bookmarkList = (function() {
   }
 
   // add new bookmarks to the list and api
-  function handleNewBookmarkSubmit() {
+  const handleNewBookmarkSubmit = function() {
     $('#js-bookmark-form').submit(function (event) {
       event.preventDefault();
       const newBookmark = {
@@ -50,12 +50,17 @@ const bookmarkList = (function() {
       });
     });
 
-  }
+  };
+
+  const handleDeleteBookmarks = function() {
+
+  };
 
   //event listeners go here
-  function bindEventListeners(){
+  const bindEventListeners = function(){
     handleNewBookmarkSubmit();
-  }
+    handleDeleteBookmarks();
+  };
 
   return {
     render: render,
