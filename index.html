@@ -13,7 +13,14 @@
     <form id="js-bookmark-form">
       <label for="bookmark-list-title">Add a bookmark</label>
       <input type="text" name="bookmark-list-title" class="js-bookmark-list-title" placeholder="Title here.."><br>
-      <textarea name="bookmark-list-desc" class="js-bookmark-list-desc" rows="10" cols="30">Description..</textarea>
+      <textarea name="bookmark-list-desc" class="js-bookmark-list-desc" rows="10" cols="30" placeholder="Description.."></textarea>
+      <select name="bookmark-rating-list" class="js-bookmark-rating-list">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
       <button type="submit">Add bookmark</button>
 
     </form>
