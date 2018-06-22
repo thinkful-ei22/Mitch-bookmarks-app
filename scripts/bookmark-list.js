@@ -9,7 +9,7 @@ const bookmarkList = (function() {
       <li class="js-bookmark-element" data-bookmark-id=${bookmark.id}>
         <div class="title js-expand">
           <p>${bookmark.title} -- ${bookmark.rating} star(s)!</p><br>
-          <p>Click for more details</p>
+          <p class="js-bookmark-details">${bookmark.expand ? 'Click to collapse' : 'Click for more details'}</p>
         </div>
         <div class="bookmark-details ${bookmark.expand ? '' : 'hidden'}" id="bookmark-details">
           <a href="${bookmark.url}" target="_blank">Visit site!</a>
@@ -99,7 +99,7 @@ const bookmarkList = (function() {
 
   //function to handle user clicks on an object
   const handleBookmarkClicked = function() {
-    $('.js-bookmark-list').on('click', '.js-bookmark-element', event => {
+    $('.js-bookmark-list').on('click', '.js-bookmark-details', event => {
       const id = getBookmarkIdFromElement(event.currentTarget);
       store.bookmarks.forEach(function (bookmark){
         if (bookmark.id === id) {
@@ -108,6 +108,14 @@ const bookmarkList = (function() {
         render();
       });
 
+    });
+  };
+
+  //function for editing bookmark description and rating
+  const handleEditBookmark = function() {
+    $('.js-bookmark-list').on('click', '.js-bookmark-edit', event => {
+      const id = getBookmarkIdFromElement(event.currentTarget);
+      console.log(id);
     });
   };
 
@@ -135,6 +143,7 @@ const bookmarkList = (function() {
   const bindEventListeners = function() {
     handleNewBookmarkSubmit();
     handleBookmarkClicked();
+    handleEditBookmark();
     handleDeleteBookmark();
     handleFilterByRating();
   };
