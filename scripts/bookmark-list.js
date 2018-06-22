@@ -125,8 +125,10 @@ const bookmarkList = (function() {
       updateData.desc = newDesc;
       updateData.rating = newRating;
       api.updateBookmark(id, updateData, ()=> {
-        store.expandElement(id);
         console.log('update callback');
+        $(event.currentTarget).closest('li').find('p.js-bookmark-expand').click();
+        store.bookmarks.find(val => val.id === id).desc = newDesc;
+        store.bookmarks.find(val => val.id === id).rating = newRating;
         render();
       });
       console.log(id, newDesc, newRating);
