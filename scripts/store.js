@@ -2,6 +2,7 @@
 
 const store = (function () {
   const bookmarks = [];
+  const filter = '';
   const errorMessage = '';
   //if error message, rerender and display block of text
 
@@ -14,6 +15,8 @@ const store = (function () {
   };
 
   return {
-    bookmarks: bookmarks, addBookmarkToStore, findAndDeleteBookmark
+
+    bookmarks: bookmarks, addBookmarkToStore, findAndDeleteBookmark,
+    filter
   };
 }());

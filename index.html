@@ -10,25 +10,48 @@
 <body>
   <div class ="container container-1">
     <h1>Bookmarks!</h1>
-    <h2 aria-live="polite" class="xx">0</h2>
     <form id="js-bookmark-form" aria-label="Bookmark Form">
-      <label for="bookmark-title">Add a bookmark</label>
-      <input type="text" name="bookmark-title" class="js-bookmark-title" placeholder="Title here.."><br>
-      <input type="text" name="bookmark-url" class="js-bookmark-url" placeholder="Url here.."><br>
-      <textarea name="bookmark-desc" class="js-bookmark-desc" rows="10" cols="30" placeholder="Description.."></textarea><br>
-      <select name="bookmark-rating" class="js-bookmark-rating">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
+      <div class="label title-group">
+        <label for="bookmark-title">Add a bookmark:</label>
+        <input type="text" name="bookmark-title" class="js-bookmark-title" placeholder="Title here..">
+      </div>
+      <div class="label url-group">
+        <label for="bookmark-url">Bookmark URL:</label>
+        <input type="text" name="bookmark-url" class="js-bookmark-url" placeholder="Url here..">
+      </div>
+      <div class="label description">
+        <label for="bookmark-desc">Description:</label>
+        <textarea name="bookmark-desc" class="js-bookmark-desc" rows="10" cols="30" placeholder="Description.."></textarea>
+        <label for="bookmark-rating">Rating:</label>
+        <select name="bookmark-rating" class="js-bookmark-rating">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
       <button type="submit">Add bookmark</button>
-
     </form>
-
+    <form id="rating-form">
+      <div class ="rating-filter">
+        <label for="rating-filter-select">Minimum rating:</label>
+        <select name="rating-filter-select" id="rating-filter-select">
+          <option value=""></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <button type="submit" id="rating-filter-button">FILTER</button>
+      </div>
+    </form>
+  </div>
+  <div class="container container-2">
     <ul class="bookmark-list js-bookmark-list">
     </ul>
+  </div>
 
 
 

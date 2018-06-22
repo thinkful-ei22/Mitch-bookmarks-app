@@ -24,12 +24,39 @@ const bookmarkList = (function() {
     return bookmarks.join('');
   };
 
+  //function to filter bookmarks by minimum rating
+  const filterBookmarks = function(bookmarks) {
+    if (store.filter === '') {
+      return generateListBookmarkString(bookmarks);
+    } else {
+      const filteredBookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.filter);
+      return generateListBookmarkString(filteredBookmarks);
+    }
+  };
+
+
   //function to render the bookmark list
-  function render() {
-    let bookmarks = store.bookmarks;
-    const listBookmarkString = generateListBookmarkString(bookmarks);
+  const render = function() {
+    const listBookmarkString = filterBookmarks(store.bookmarks);
+
     $('.bookmark-list').html(listBookmarkString);
-  }
+  };
+
+  //function to validat new bookmarks for the user
+  const newBookmarkValidation = function(bookmark){
+    $('.error').remove();
+
+    if (bookmark.title === '') {
+      $('.js-bookmark-title').after('<span class="error">This field is required</span>');
+      throw new TypeError('Title is required');
+    }
+    // else if (bookmark.url === '') {
+    //   $('.js-bookmark-url').after('<span class="error>This field is required</span>');
+    // }
+    else {
+      return bookmark;
+    }
+  };
 
   //function to add new bookmarks to the list and api
   const handleNewBookmarkSubmit = function() {
@@ -41,16 +68,17 @@ const bookmarkList = (function() {
         desc: $('.js-bookmark-desc').val(),
         rating: $('.js-bookmark-rating').val(),
       };
-      $('.js-bookmark-title').val(''),
-      $('.js-bookmark-url').val(''),
-      $('.js-bookmark-desc').val(''),
-      $('.js-bookmark-rating').val(''),
-      api.createBookmark(newBookmark, (bookmark) => {
+      $('.js-bookmark-title').val('');
+      $('.js-bookmark-url').val('');
+      $('.js-bookmark-desc').val('');
+      $('.js-bookmark-rating').val('');
+      const validBookmark = newBookmarkValidation(newBookmark);
+      api.createBookmark(validBookmark, (bookmark) => {
         store.addBookmarkToStore(bookmark);
         render();
       }, (err) => {
         console.log(err);
-        alert(err.responseJSON.message);
+        //alert(err.responseJSON.message);
       });
     });
 
@@ -72,10 +100,20 @@ const bookmarkList = (function() {
     });
   };
 
+  //function for filtering list by rating
+  const handleFilterByRating = function() {
+    $('#rating-form').on('click', '#rating-filter-button', function() {
+      event.preventDefault();
+      store.filter = $('#rating-filter-select').val();
+      render();   
+    });
+  };
+
   //event listeners go here
-  const bindEventListeners = function(){
+  const bindEventListeners = function() {
     handleNewBookmarkSubmit();
     handleDeleteBookmark();
+    handleFilterByRating();
   };
 
   return {
