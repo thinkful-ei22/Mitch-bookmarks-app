@@ -9,9 +9,10 @@ const bookmarkList = (function() {
       <li class="js-bookmark-element" data-bookmark-id=${bookmark.id}>
         <div class="title js-expand">
           <p>${bookmark.title} -- ${bookmark.rating} star(s)!</p><br>
+          <p>Click for more details</p>
         </div>
-        <div class="bookmark-details js-bookmark-details" id="bookmark-details">
-          <a href="${bookmark.url}" target="_blank">LINK</a>
+        <div class="bookmark-details ${bookmark.expand ? '' : 'hidden'}" id="bookmark-details">
+          <a href="${bookmark.url}" target="_blank">Visit site!</a>
           <p>${bookmark.desc}</p>
           <button class="bookmark-delete js-bookmark-delete">
             <span class="button label">Delete</span>
@@ -53,12 +54,13 @@ const bookmarkList = (function() {
       $('.js-bookmark-title').after('<span class="error">This field is required</span>');
       throw new TypeError('Title is required');
     }
-    // else if (bookmark.url === '') {
-    //   $('.js-bookmark-url').after('<span class="error>This field is required</span>');
-    // }
-    else {
-      return bookmark;
+    if (bookmark.url === '') {
+      $('.js-bookmark-url').after('<span class="error>This field is required</span>');
     }
+
+    bookmark.expand = false;
+    return bookmark;
+
   };
 
   //function to add new bookmarks to the list and api
@@ -92,11 +94,17 @@ const bookmarkList = (function() {
     return $(bookmark).closest('.js-bookmark-element').data('bookmark-id');
   };
 
+  //function to handle user clicks on an object
   const handleBookmarkClicked = function() {
     $('.js-bookmark-list').on('click', '.js-bookmark-element', event => {
       const id = getBookmarkIdFromElement(event.currentTarget);
-      const element = document.getElementById('bookmark-details');
-      console.log(id, element);
+      store.bookmarks.forEach(function (bookmark){
+        if (bookmark.id === id) {
+          bookmark.expand = !bookmark.expand;
+        }
+        render();
+      });
+
     });
   };
 
