@@ -33,6 +33,16 @@ const api = (function() {
     });
   };
 
+  const updateBookmark = function(id, updateData, callback) {
+    $.ajax({
+      'url': `${BASE_URL}/bookmarks/${id}`,
+      'method': 'PATCH',
+      'contentType': 'application/json',
+      'data': JSON.stringify(updateData),
+      'success': callback
+    });
+  };
+
   const deleteBookmark = function(id, callback) {
     $.ajax({
       'url': `${BASE_URL}/bookmarks/${id}`,
@@ -42,7 +52,7 @@ const api = (function() {
   };
 
   return {
-    getBookmarks, createBookmark, deleteBookmark
+    getBookmarks, createBookmark, updateBookmark, deleteBookmark
   };
 
 }());

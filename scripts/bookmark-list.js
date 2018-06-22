@@ -6,16 +6,24 @@ const bookmarkList = (function() {
   //function to add HTML elements to bookmark
   const generateBookmarkElement = function(bookmark) {
     return `
-      <li class="js-bookmark-element" data-bookmark-id=${bookmark.id}>
+      <li class="js-bookmark-element row" data-bookmark-id=${bookmark.id}>
         <div class="title js-expand">
-          <p>${bookmark.title} -- ${bookmark.rating} star(s)!</p><br>
-          <p class="js-bookmark-details">${bookmark.expand ? 'Click to collapse' : 'Click for more details'}</p>
+          <p>${bookmark.title}<p>
+          <p>${bookmark.rating} star(s)!</p>
+          <p class="js-bookmark-expand">${bookmark.expand ? 'Click to collapse' : 'Click for more details'}</p>
         </div>
-        <div class="bookmark-details ${bookmark.expand ? '' : 'hidden'}" id="bookmark-details">
+        <div class="bookmark-info ${bookmark.expand ? '' : 'hidden'}">
           <a href="${bookmark.url}" target="_blank">Visit site!</a>
-          <p>${bookmark.desc}</p>
+          <textarea name="bookmark-desc" class="js-bookmark-desc-edit" rows="5" cols="30" value="${bookmark.desc}">${bookmark.desc}</textarea>
+          <select name="bookmark-rating" class="js-bookmark-rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
           <button class="bookmark-edit js-bookmark-edit">
-            <span class="button label">Edit</span>
+            <span class="button label">Submit Edit</span>
           </button>
           <button class="bookmark-delete js-bookmark-delete">
             <span class="button label">Delete</span>
@@ -45,7 +53,7 @@ const bookmarkList = (function() {
   //function to render the bookmark list
   const render = function() {
     const listBookmarkString = filterBookmarks(store.bookmarks);
-
+    console.log('render ran');
     $('.bookmark-list').html(listBookmarkString);
   };
 
@@ -58,12 +66,8 @@ const bookmarkList = (function() {
     }
     if (bookmark.url === '') {
       $('.js-bookmark-url').after('<span class="error">This field is required</span>');
-    } else if (bookmark.url.length <= 5 ){
-      console.log('x');
-    }
-    bookmark.expand = false;
+    } 
     return bookmark;
-
   };
 
   //function to add new bookmarks to the list and api
@@ -82,7 +86,7 @@ const bookmarkList = (function() {
       $('.js-bookmark-rating').val('');
       const validBookmark = newBookmarkValidation(newBookmark);
       api.createBookmark(validBookmark, (bookmark) => {
-        store.addBookmarkToStore(bookmark);
+        //store.addBookmarkToStore(bookmark);
         render();
       }, (err) => {
         $('.js-bookmark-title').after(`<span class="error">${err.responseJSON.message}</span>`);
@@ -99,7 +103,7 @@ const bookmarkList = (function() {
 
   //function to handle user clicks on an object
   const handleBookmarkClicked = function() {
-    $('.js-bookmark-list').on('click', '.js-bookmark-details', event => {
+    $('.js-bookmark-list').on('click', '.js-bookmark-expand', event => {
       const id = getBookmarkIdFromElement(event.currentTarget);
       store.bookmarks.forEach(function (bookmark){
         if (bookmark.id === id) {
@@ -115,7 +119,17 @@ const bookmarkList = (function() {
   const handleEditBookmark = function() {
     $('.js-bookmark-list').on('click', '.js-bookmark-edit', event => {
       const id = getBookmarkIdFromElement(event.currentTarget);
-      console.log(id);
+      const newDesc = $(event.currentTarget).closest('li').find('.js-bookmark-desc-edit').val();
+      const newRating = $(event.currentTarget).closest('li').find('.js-bookmark-rating').val();
+      const updateData = {};
+      updateData.desc = newDesc;
+      updateData.rating = newRating;
+      api.updateBookmark(id, updateData, ()=> {
+        store.expandElement(id);
+        console.log('update callback');
+        render();
+      });
+      console.log(id, newDesc, newRating);
     });
   };
 
