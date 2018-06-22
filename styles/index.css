@@ -41,6 +41,7 @@ button:hover {
 .hidden {
   display: none;
 }
+
 .js-bookmark-element {
   background-color: white;
   opacity: 0.9;

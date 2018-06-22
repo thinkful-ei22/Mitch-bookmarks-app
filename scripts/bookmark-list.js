@@ -14,6 +14,9 @@ const bookmarkList = (function() {
         <div class="bookmark-details ${bookmark.expand ? '' : 'hidden'}" id="bookmark-details">
           <a href="${bookmark.url}" target="_blank">Visit site!</a>
           <p>${bookmark.desc}</p>
+          <button class="bookmark-edit js-bookmark-edit">
+            <span class="button label">Edit</span>
+          </button>
           <button class="bookmark-delete js-bookmark-delete">
             <span class="button label">Delete</span>
           </button>
@@ -46,18 +49,18 @@ const bookmarkList = (function() {
     $('.bookmark-list').html(listBookmarkString);
   };
 
-  //function to validat new bookmarks for the user
+  //function to validate new bookmarks for the user
   const newBookmarkValidation = function(bookmark){
     $('.error').remove();
-
     if (bookmark.title === '') {
       $('.js-bookmark-title').after('<span class="error">This field is required</span>');
       throw new TypeError('Title is required');
     }
     if (bookmark.url === '') {
-      $('.js-bookmark-url').after('<span class="error>This field is required</span>');
+      $('.js-bookmark-url').after('<span class="error">This field is required</span>');
+    } else if (bookmark.url.length <= 5 ){
+      console.log('x');
     }
-
     bookmark.expand = false;
     return bookmark;
 
@@ -82,8 +85,8 @@ const bookmarkList = (function() {
         store.addBookmarkToStore(bookmark);
         render();
       }, (err) => {
+        $('.js-bookmark-title').after(`<span class="error">${err.responseJSON.message}</span>`);
         console.log(err);
-        //alert(err.responseJSON.message);
       });
     });
 
