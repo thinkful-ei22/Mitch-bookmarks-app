@@ -86,7 +86,7 @@ const bookmarkList = (function() {
       $('.js-bookmark-rating').val('');
       const validBookmark = newBookmarkValidation(newBookmark);
       api.createBookmark(validBookmark, (bookmark) => {
-        //store.addBookmarkToStore(bookmark);
+        store.addBookmarkToStore(bookmark);
         render();
       }, (err) => {
         $('.js-bookmark-title').after(`<span class="error">${err.responseJSON.message}</span>`);
